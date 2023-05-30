@@ -79,7 +79,7 @@ After adding a bot account to Slack, we now have enough information to add the p
 
 Newer version of Gradle support the updated [plugin DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block). These steps show how to install the plugin with this technique.
 
-1. Note the latest release of this plugin for use in the next step: [![Latest Release](https://img.shields.io/github/release/upmc-enterprises/gradle-slack-uploader-plugin.svg?label=Release)](https://github.com/upmc-enterprises/gradle-slack-uploader-plugin/releases)
+1. Note the latest release of this plugin for use in the next step: 
 1. Open your `build.gradle` file, and add this code to load and applythe plugin:
 
     ```groovy
@@ -92,7 +92,7 @@ Newer version of Gradle support the updated [plugin DSL](https://docs.gradle.org
 
 Older versions of Gradle do not support the modern [plugin DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block). Use this technique if the above approach fails.
 
-1. Note the latest release of this plugin for use in the next step: [![Latest Release](https://img.shields.io/github/release/upmc-enterprises/gradle-slack-uploader-plugin.svg?label=Release)](https://github.com/upmc-enterprises/gradle-slack-uploader-plugin/releases)
+1. Note the latest release of this plugin for use in the next step:
 1. Open your `build.gradle` file, and add this code to load and applythe plugin:
 
     ```groovy
