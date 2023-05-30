@@ -1,22 +1,23 @@
 plugins {
-    id "com.gradle.plugin-publish" version "0.10.1"
+    id 'com.gradle.plugin-publish' version '1.1.0'
     id "java-gradle-plugin"
     id "maven"
     id "org.jetbrains.kotlin.jvm" version "1.3.50"
 }
 
 group 'com.faheem.gradle'
-version '2.1.0'
+version '1.0.0'
 
 gradlePlugin {
     plugins {
-        slackUploader {
-            id = "com.faheem.gradle.slack"
-            implementationClass = "com.faheem.gradle.slack.SlackUploaderPlugin"
+        slackGradleAndroidPlugin {
+            id = 'com.faheem.gradle.slack'
+            implementationClass = 'com.faheem.gradle.slack.SlackUploaderPlugin'
+            displayName = 'Slack Gradle Android Plugin'
+            description = "Uploads artifacts from a Gradle build as a file to a Slack channel"
         }
     }
 }
-
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -45,14 +46,7 @@ uploadArchives {
 }
 
 pluginBundle {
-    description = "Uploads artifacts from a Gradle build as a file to a Slack channel"
-    website = "https://www.linkedin.com/in/fah33mk/"
-    vcsUrl = "https://github.com/fah33mk/slack-gradle-android-plugin"
+    website = 'https://www.linkedin.com/in/fah33mk/'
+    vcsUrl = 'https://github.com/fah33mk/slack-gradle-android-plugin'
     tags = ["artifacts", "build", "build artifacts", "cd", "ci", "files", "kotlin", "slack"]
-
-    plugins {
-        slackUploader {
-            displayName = "Slack Gradle Android Plugin"
-        }
-    }
 }

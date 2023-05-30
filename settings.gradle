@@ -8,4 +8,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'slack-gradle-android'
+rootProject.name = 'slack_gradle_android'

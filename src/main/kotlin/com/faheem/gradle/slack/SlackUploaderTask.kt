@@ -11,8 +11,14 @@ open class SlackUploaderTask : DefaultTask() {
 
     @Input
     var channel = ""
+
+    @Input
     var comment = ""
+
+    @Input
     var filePath = ""
+
+    @Input
     var token = ""
 
     @TaskAction

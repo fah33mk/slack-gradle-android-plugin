@@ -4,7 +4,7 @@
 <br>
 <br>
 
-<h1>Gradle Slack Uploader Plugin<br/><sub>Upload anything to a Slack channel from Gradle</sub></h1>
+<h1>Slack Gradle Android Plugin<br/><sub>Upload anything to a Slack channel with the help of Gradle task</sub></h1>
 
 [🖥 Demo](#build-and-run-this-project) |
 [📖 Documentation](#getting-started) |
@@ -13,12 +13,6 @@
 ```text
 "Works to help you improve your CI and CD practices."
 ```
-
-[![Supported Kotlin Versions](https://img.shields.io/badge/Kotlin-1.3.50%2B-green.svg?logo=kotlin&style=flat&logoColor=green)](https://kotlinlang.org/)
-[![Supported Gradle Versions](https://img.shields.io/badge/Gradle-5.6.2%2B-green.svg?logo=java&style=flat&logoColor=green)](https://gradle.org/)
-[![Latest Release](https://img.shields.io/github/release/upmc-enterprises/gradle-slack-uploader-plugin.svg?label=Release)](https://github.com/upmc-enterprises/gradle-slack-uploader-plugin/releases)
-![Available on the Gradle Plugin Portal](https://img.shields.io/maven-metadata/v/https/plugins.gradle.org/m2/com/oliverspryn/gradle/slackuploader/com.oliverspryn.gradle.slackuploader.gradle.plugin/maven-metadata.xml.svg?label=Gradle%20Plugin%20Portal)
-[![Available on JitPack](https://jitpack.io/v/upmc-enterprises/gradle-slack-uploader.svg)](https://jitpack.io/#upmc-enterprises/gradle-slack-uploader)
 
 <hr />
 </div>
@@ -90,7 +84,7 @@ Newer version of Gradle support the updated [plugin DSL](https://docs.gradle.org
 
     ```groovy
     plugins {
-        id "com.oliverspryn.gradle.slackuploader" version "<latest version>"
+        id "com.faheem.gradle.slack" version "<latest version>"
     }
     ```
 
@@ -108,7 +102,7 @@ Older versions of Gradle do not support the modern [plugin DSL](https://docs.gra
         }
 
         dependencies {
-            classpath "gradle.plugin.com.oliverspryn.gradle:slack-uploader:<latest-version>"
+            classpath "com.faheem.gradle.slack:slackGradleAndroidPlugin:<latest-version>"
         }
     }
     ```
@@ -116,7 +110,7 @@ Older versions of Gradle do not support the modern [plugin DSL](https://docs.gra
 1. Now, apply it:
 
     ```groovy
-    apply plugin: "com.oliverspryn.gradle.slackuploader"
+    apply plugin: "com.faheem.gradle.slack:slackGradleAndroidPlugin"
     ```
 
 ### Using JitPack (Not Recommended)
@@ -133,7 +127,7 @@ For the sake of convinence, this plugin is also available on JitPack. These step
         }
 
         dependencies {
-            classpath "com.github.upmc-enterprises:gradle-slack-uploader:<latest version>"
+            classpath "com.faheem.gradle.slack:slackGradleAndroidPlugin:<latest version>"
         }
     }
     ```
@@ -141,7 +135,7 @@ For the sake of convinence, this plugin is also available on JitPack. These step
 1. Now, apply it:
 
     ```groovy
-    apply plugin: "com.oliverspryn.gradle.slackuploader"
+    apply plugin: "com.faheem.gradle.slack:slackGradleAndroidPlugin"
     ```
 
 # Configuring the Plugin
@@ -246,20 +240,3 @@ Here are answers to a few questions you may encounter when setting up or using t
         ...
     }
     ```
-
-<br>
-<hr />
-<br>
-<br>
-
-<div align="center">
-<p>This plugin was inspired by a need for the <a href="https://myupmc.upmc.com" target="_blank">MyUPMC</a> project at <a href="https://enterprises.upmc.com" target="_blank">UPMC Enterprises</a></p>
-
-<a href="https://myupmc.upmc.com" target="_blank">
-    <img alt="MyUPMC" src=".docs/logos/myupmc.png" height="40" />
-</a>
-
-<a href="https://enterprises.upmc.com" target="_blank">
-    <img alt="UPMC Enterprises" src=".docs/logos/upmc-enterprises.jpg" height="40" />
-</a>
-</div>
