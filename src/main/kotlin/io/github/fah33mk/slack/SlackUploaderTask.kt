@@ -1,4 +1,4 @@
-package com.faheem.gradle.slack
+package io.github.fah33mk.slack
 
 import allbegray.slack.webapi.SlackWebApiClientImpl
 import org.gradle.api.DefaultTask
