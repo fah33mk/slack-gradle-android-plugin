@@ -210,9 +210,7 @@ there.
 There are a few ways you can use this plugin, depending on your needs. You may wish to adapt how you use this based on
 your setup. Before diving into the code, let's cover what this plugin offers:
 
-- **Configuration Block For Single Build Upload:** You must *always* configure this plugin with a block since it has
-  required parameters:
-
+- **Configuration Block For Single Build Upload:**
     ```groovy
     uploadFileToSlack {
         ...
@@ -237,8 +235,7 @@ configured block:
 ```groovy
 uploadFileToSlack {
     comment "Our app is ready for release!"
-    channels "public-release-channel", "developers"
-    enabled true
+    channels "quality-assurance-channel"
     filePath "build/outputs/apk/release/app-release.apk"
     token GRADLE_SLACK_UPLOADER_PLUGIN_TOKEN ?: "" // Defined in the global gradle.properties file
 }
