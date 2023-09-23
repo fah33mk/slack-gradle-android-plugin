@@ -277,7 +277,7 @@ Here is an elaboration of each of these options:
 
 ### Task `sendForSanityTesting`
 
-This task is created when after all the development & testing is completed you the final testing of the builds and get
+This task is created when after all the development & testing is completed, you the final testing of the builds and get
 ready for deploy.
 This task will share below list of builds
 
