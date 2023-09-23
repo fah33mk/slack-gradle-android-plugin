@@ -78,7 +78,7 @@ Whenever a file is uploaded, you can expect it to feel very familiar and flexibl
 # Getting Started
 
 There are two parts to installing this plugin. The first part is for creating a Slack bot account with which the plugin
-uses to upload a file and the second part is, of course, installing it into your Gradle script.
+uses to upload a file, and the second part is, of course, installing it into your Gradle script.
 
 ## Create the Slack Bot
 
@@ -86,40 +86,48 @@ Unless your Slack administrator has banned unapproved apps from being installed 
 anyone should be able to follow these steps.
 
 1. Go to [api.slack.com/apps](https://api.slack.com/apps/)
-1. Press the *Create New App* button. Apps within Slack enable automated bots to post messages to a Slack channel.
-1. In the pop-up dialog, give the app a friendly name. This name is for your reference only and is not reflected as the
-   bot's name in a Slack workspace whenever it posts a message. You will configure the bot's name later.
+2. Press the *Create New App* button. Apps within Slack enable automated bots to post messages to a Slack channel.
+3. In the pop-up dialog, give the app a friendly name.
+   This name is for your reference only and is not reflected as the
+   bots' name in a Slack workspace whenever it posts a message.
+   You will configure the bots' name later.
 
-    <img alt="Slack application creation dialog" src=".docs/screenshots/create-app.png" width="320" />
+    <img alt="Slack application creation dialog" src=".docs/screenshots/create-app.png" width="731" />
 
-1. After creating the app, click on the *Bots* button, under the *Add Features and Functionality* section
+4. After creating the app, click on the *Bots* button, under the *Add Features and Functionality* section
 
-    <img alt="Add bot functionality" src=".docs/screenshots/add-bot-functionality.png" width="320" />
+    <img alt="Add bot functionality" src=".docs/screenshots/add-bot-functionality.png" width="700" />
 
-1. Click the *Add a Bot User* button and fill out the form. The Display Name is effectively the bot's First and Last
-   Name, which appears as the sender of a Slack message. You can populate this form as you please. Here is an example
+5. Click the *Add a Bot User* button and fill out the form.
+   The Display Name is effectively the bots First and Last
+   Name, which appears as the sender of a Slack message.
+   You can populate this form as you please.
+   Here is an example
    set up:
 
-    <img alt="Bot user details" src=".docs/screenshots/bot-user-details.png" width="320" />
+    <img alt="Bot user details" src=".docs/screenshots/bot-user-details.png" width="533" />
 
-1. Save your changes and the go back to the *Basic Information* page, which is available from the left-column navigation
-1. Under the *Add Features and Functionality* section, both the *Bots* and *Permissions* features should show as
+6. Save your changes and go back to the *Basic Information* page, which is available from the left-column navigation
+7. Under the *Add Features and Functionality* section, both the *Bots* and *Permissions* features should show as
    completed
 
-    <img alt="Completed Features and Functionality" src=".docs/screenshots/completed-features-and-functionality.png" width="320" />
+    <img alt="Completed Features and Functionality" src=".docs/screenshots/completed-features-and-functionality.png" width="700" />
 
-1. **(Optional)** Populate the *Display Information*. This can be thought of as the bot's profile picture and status
+8. **(Optional)** Populate the *Display Information*.
+   This can be thought of as the bots' profile picture and status
    message.
 
-    <img alt="Completed Features and Functionality" src=".docs/screenshots/display-information.png" width="320" />
+    <img alt="Completed Features and Functionality" src=".docs/screenshots/display-information.png" width="711" />
 
-1. Click on *Install Your App to Your Workspace* and follow Slack's installation and permission prompts
-1. After installing the app, go back to the app's configuration
-1. On the left-column navigation go to *OAuth & Permissions*
-1. Make a note of the *Bot User OAuth Access Token* (not the OAuth Access Token). You will need this for a subsequent
-   step. **Keep this token safe, as having access to it enables anyone to send messages to your workspace.**
+9. Click on *Install Your App to Your Workspace* and follow Slack's installation and permission prompts
+10. After installing the app, go back to the app's configuration
+11. On the left-column navigation go to *OAuth & Permissions*
+12. Make a note of the *Bot User OAuth Access Token* (not the OAuth Access Token).
+    You will need this for a subsequent
+    step.
+    Keep this token safe, as having access to it enables anyone to send messages to your workspace.**
 
-    <img alt="Bot User OAuth Access Token" src=".docs/screenshots/bot-access-token.jpg" width="320" />
+    <img alt="Bot User OAuth Access Token" src=".docs/screenshots/bot-access-token.jpg" width="711" />
 
 ## Install the Plugin into Gradle
 
@@ -127,12 +135,12 @@ After adding a bot account to Slack, we now have enough information to add the p
 
 ### Using the Plugins DSL (Recommended)
 
-Newer version of Gradle support the
+The Newer version of Gradle supports the
 updated [plugin DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block). These steps show how to
 install the plugin with this technique.
 
 1. Note the latest release of this plugin for use in the next step:
-1. Open your `build.gradle` file, and add this code to load and apply the plugin:
+2. Open your `build.gradle` file, and add this code to load and apply the plugin:
 
     ```groovy
     plugins {
@@ -147,7 +155,7 @@ modern [plugin DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:p
 above approach fails.
 
 1. Note the latest release of this plugin for use in the next step:
-1. Open your `build.gradle` file, and add this code to load and apply the plugin:
+2. Open your `build.gradle` file, and add this code to load and apply the plugin:
 
     ```groovy
     buildscript {
@@ -161,7 +169,7 @@ above approach fails.
     }
     ```
 
-1. Now, apply it:
+3. Now, apply it:
 
     ```groovy
     apply plugin: "com.faheem.gradle.slack:slackGradleAndroidPlugin"
@@ -169,14 +177,15 @@ above approach fails.
 
 ### Using JitPack (Not Recommended)
 
-For the sake of convinence, this plugin is also available on JitPack. These steps show how to install the plugin from
+For the sake of convenience, this plugin is also available on JitPack.
+These steps show how to install the plugin from
 there.
 
 1. Note the latest release of this plugin for use in the next
-   step: [Latest Release - 1.0.6](https://plugins.gradle.org/plugin/io.github.fah33mk.slack)
-1. Note the stable release of this plugin
+   step: [Latest Release—1.0.6](https://plugins.gradle.org/plugin/io.github.fah33mk.slack)
+2. Note the stable release of this plugin
    is: [Stable Release - 1.0.5](https://plugins.gradle.org/plugin/io.github.fah33mk.slack)
-1. Open your `build.gradle` file, and add this code to load the plugin:
+3. Open your `build.gradle` file, and add this code to load the plugin:
 
     ```groovy
     buildscript {
@@ -202,7 +211,7 @@ There are a few ways you can use this plugin, depending on your needs. You may w
 your setup. Before diving into the code, let's cover what this plugin offers:
 
 - **Configuration Block For Single Build Upload:** You must *always* configure this plugin with a block since it has
-  required paramters:
+  required parameters:
 
     ```groovy
     uploadFileToSlack {
@@ -217,11 +226,12 @@ your setup. Before diving into the code, let's cover what this plugin offers:
     ./gradlew uploadFileToSlack
     ```
 
-  Keep in mind you'll probably want a few commands beforehand to run a build and generate artifacts.
+  Keep in mind, you'll probably want a few commands beforehand to run a build and generate artifacts.
 
 ## Configuration Block Options
 
-There are several parameters which are provided to alter the behavior of the plugin. Here is an example of a fully
+There are several parameters that are provided to alter the behavior of the plugin.
+Here is an example of a fully
 configured block:
 
 ```groovy
@@ -241,34 +251,36 @@ Here is an elaboration of each of these options:
 | `comment`  |   *None*    |      ✅       | The comment which is shown above the file attachment in Slack |
 | `channels` |   *None*    |      ✅       | Comma separated list of channels which will receive the file  |
 | `filePath` |   *None*    |      ✅       |  Path of the artifact to upload relative to the project root  |
-|  `token`   |   *None*    |      ✅       |                Slack bot's OAuth access token                 |
-
+|  `token`   |   *None*    |      ✅       |                 Slack bots OAuth access token                 |
 
 ## Flavour & Variant Based Upload Tasks
 
-### Write/Add Script to support multi flavour and variant support
+### Write/Add Script to support multi flavor and variant support
 
 1. Create a `.gradle` file into your project
 2. Add this [slack.gradle](scripts/slack.gradle) into your android project.
-3. This file will create multiple tasks into your gradle scripts which will include
+3. This file will create multiple tasks into your gradle scripts, which will include
     1. Variant based single or multiple `apk` uploader
-    2. Flavour based single or multiple `apk` uploader
+    2. Flavor-based single or multiple `apk` uploader
     3. Variant based single or multiple `bundle` uploader
-    4. Flavour based single or multiple `bundle` uploader
+    4. Flavor-based single or multiple `bundle` uploader
     5. One task to send all the variants and flavoured apk's
-    6. Before creating build it run all tests in the project
+    6. Before creating build, it runs all tests in the project
 4. Go into your app level `build.gradle` file and add `apply from: 'slack.gradle'`
 
 ### Sync Project & Open Gradle Task List
 
-1. Once project sync is completed open gradle tab in your android studio. Make sure that on sync all the gradle tasks
-   are being created. If you are not sure
-   see [Gradle Task is Missing on Android Studio](https://medium.com/@mockreader/gradle-task-is-missing-on-android-studio-4-2-f7838bc22909).
+1. Once project sync is completed, open the gradle tab in your android studio.
+   Make sure that on sync all the gradle tasks
+   are being created.
+   If you are not sure,
+   see
+   [Gradle Task is Missing on Android Studio](https://medium.com/@mockreader/gradle-task-is-missing-on-android-studio-4-2-f7838bc22909).
 2. Once you get all the task list look for a group/folder named as `slack`
 3. Expand or open
-4. You will see all the list of tasks as given below:
+4. You will see all the list of tasks as the given below:
 
-<b>Note:</b> in this example I had two flavours
+<b>Note:</b> in this example I had two flavors
 
 1. GMS (Builds for Devices having Google Play Services)
 2. HMS (Builds for Devices having Huawei Mobile Services)
@@ -281,24 +293,35 @@ This task is created when after all the development & testing is completed, you 
 ready for deploy.
 This task will share below list of builds
 
-1. All flavours Release APK
-2. All flavours Release Bundle
+1. All flavors Release APK
+2. All flavors Release Bundle
 
 ### Run
+
 1. Double-click on any script form the list
-2. Manually start a task e,g `sendAll` 
+2. Manually start a task e,g `sendAll`
     ```bash
     ./gradlew sendAll
     ```
-   
-Note: The tasks will run `assemble`, `bundle` and `tests` scripts by itself so you don't need to call them first to upload any build.
-<h1>👨🏽‍💻 About Me</h1>
 
-Greetings! I'm **Faheem Ahmad**, the developer behind the Slack Gradle Android Plugin. I'm passionate about streamlining workflows and optimizing software deployment processes. The Slack Gradle Android Plugin is a testament to that passion, designed to enhance collaboration and communication within your development team.
+Note: The tasks will run `assemble`, `bundle` and `tests` scripts by itself, so you don't need to call them first to
+upload any build.
+<h1>👨🏽 About Me</h1>
 
-This plugin emerged from the need to efficiently share software builds within a team, saving valuable time and resources. By integrating with Git and Slack, it facilitates seamless deployment and helps you make informed decisions based on performance insights from build artifacts.
+Greetings!
+I'm **Faheem Ahmad**, the developer behind the Slack Gradle Android Plugin.
+I'm passionate about streamlining
+workflows and optimizing software deployment processes.
+The Slack Gradle Android Plugin is a testament to that passion,
+designed to enhance collaboration and communication within your development team.
 
-Feel free to reach out to me via email for any inquiries, suggestions, or feedback regarding the Slack Gradle Android Plugin. Let's collaborate and enhance your development endeavors!
+This plugin emerged from the need to efficiently share software builds within a team, saving valuable time and
+resources.
+By integrating with Git and Slack, it facilitates seamless deployment and helps you make informed decisions
+based on performance insights from build artifacts.
+
+Feel free to reach out to me via email for any inquiries, suggestions, or feedback regarding the Slack Gradle Android
+Plugin. Let's collaborate and enhance your development endeavors!
 
 Contact:
-<b>**[Email](faheem.a1992@gmail.com)**, **[LinkedIn](https://www.linkedin.com/in/fah33mk/)**</b>
+<b>**[Email](mailto:faheem.a1992@gmail.com)**, **[LinkedIn](https://www.linkedin.com/in/fah33mk/)**</b>
