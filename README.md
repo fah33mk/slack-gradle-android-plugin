@@ -206,50 +206,6 @@ there.
     ```
 
 # Configuring the Plugin
-
-There are a few ways you can use this plugin, depending on your needs. You may wish to adapt how you use this based on
-your setup. Before diving into the code, let's cover what this plugin offers:
-
-- **Configuration Block For Single Build Upload:**
-    ```groovy
-    uploadFileToSlack {
-        ...
-    }
-    ```
-
-  Otherwise, your build will fail with an exception until the necessary information is provided.
-- **Task:** To manually kick off an upload task, run the `uploadFileToSlack` task, like so:
-
-    ```bash
-    ./gradlew uploadFileToSlack
-    ```
-
-  Keep in mind, you'll probably want a few commands beforehand to run a build and generate artifacts.
-
-## Configuration Block Options
-
-There are several parameters that are provided to alter the behavior of the plugin.
-Here is an example of a fully
-configured block:
-
-```groovy
-uploadFileToSlack {
-    comment "Our app is ready for release!"
-    channels "quality-assurance-channel"
-    filePath "build/outputs/apk/release/app-release.apk"
-    token GRADLE_SLACK_UPLOADER_PLUGIN_TOKEN ?: "" // Defined in the global gradle.properties file
-}
-```
-
-Here is an elaboration of each of these options:
-
-| **Option** | **Default** | **Required** |                        **Description**                        |
-|:----------:|:-----------:|:------------:|:-------------------------------------------------------------:|
-| `comment`  |   *None*    |      ✅       | The comment which is shown above the file attachment in Slack |
-| `channels` |   *None*    |      ✅       | Comma separated list of channels which will receive the file  |
-| `filePath` |   *None*    |      ✅       |  Path of the artifact to upload relative to the project root  |
-|  `token`   |   *None*    |      ✅       |                 Slack bots OAuth access token                 |
-
 ## Flavour & Variant Based Upload Tasks
 
 ### Write/Add Script to support multi flavor and variant support
