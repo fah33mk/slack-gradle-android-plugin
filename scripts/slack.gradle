@@ -1,0 +1,94 @@
+apply plugin: "io.github.fah33mk.slack"
+
+project.afterEvaluate {
+    startTaskCreation()
+}
+
+def startTaskCreation() {
+    def allTasks = []
+    def sendSanityTasks = []
+    android.productFlavors.collect { flavor ->
+        def sendTasks = []
+        android.buildTypes.collect { buildType ->
+            createApkUploadTask(flavor.name, buildType)
+            sendTasks.add("send${flavor.name.capitalize()}${buildType.name.capitalize()}")
+            if (buildType.name == "release") {
+                createBundleUploadTask(flavor.name, buildType)
+                sendTasks.add("sendBundle${flavor.name.capitalize()}${buildType.name.capitalize()}")
+                sendSanityTasks.add("send${flavor.name.capitalize()}${buildType.name.capitalize()}")
+                sendSanityTasks.add("sendBundle${flavor.name.capitalize()}${buildType.name.capitalize()}")
+            }
+        }
+        def taskName = "send${flavor.name.capitalize()}"
+        task(taskName, dependsOn: sendTasks) {
+            group "slack"
+        }
+        allTasks.add(taskName)
+    }
+    def sanityTaskName = "sendSanity"
+    task(sanityTaskName, dependsOn: sendSanityTasks) {
+        group "slack"
+    }
+    task("send", dependsOn: allTasks) {
+        group "slack"
+    }
+}
+
+def createApkUploadTask(flavor, buildType) {
+    task("send${flavor.capitalize()}${buildType.name.capitalize()}", dependsOn: getDependantTasks(flavor, buildType)) {
+        group 'qa'
+        def channel = "CHANNEL_ID_HERE"
+        def token = "YOUR_SLACK_BOT_TOKEN_HERE" // keep in mind the slack bot token starts with xoxo
+        def projectName = "Example"
+
+        doLast {
+            uploadFileToSlack {
+                setChannel(channel)
+                setComment("Build of *$projectName" + "Flavor: `${flavor.capitalize()}`\n" +
+                        "Envoirnment: `${buildType.name.capitalize()}`\n" +
+                        "Branch: `${"git rev-parse --abbrev-ref HEAD".execute().text.trim()}`\n" +
+                        "Author: `${"git log -1 --pretty=%an".execute().text.trim()}`\n" +
+                        "Email: `${"git log -1 --pretty=%ae".execute().text.trim()}`\n" +
+                        "Message: ```${"git log -1 --pretty=%B".execute().text.trim()}```\n")
+                setFilePath("app/build/outputs/apk/${flavor}/${buildType.name}/${archivesBaseName}-${flavor}-${buildType.name}.apk")
+                setToken(token)
+            }.execute()
+        }
+    }
+}
+
+def createBundleUploadTask(flavor, buildType) {
+    task("sendBundle${flavor.capitalize()}${buildType.name.capitalize()}", dependsOn: getBundleDependantTasks(flavor, buildType)) {
+        group 'slack'
+        def channel = "CHANNEL_ID_HERE"
+        def token = "YOUR_SLACK_BOT_TOKEN_HERE" // keep in mind the slack bot token starts with xoxo
+        def projectName = "Example"
+
+        doLast {
+            uploadFileToSlack {
+                setChannel(channel)
+                setComment("Build of *$projectName*\n" + "Flavor: `${flavor.capitalize()}`\n" +
+                        "Envoirnment: `${buildType.name.capitalize()}`\n" +
+                        "Branch: `${"git rev-parse --abbrev-ref HEAD".execute().text.trim()}`\n" +
+                        "Author: `${"git log -1 --pretty=%an".execute().text.trim()}`\n" +
+                        "Email: `${"git log -1 --pretty=%ae".execute().text.trim()}`\n" +
+                        "Message: ```${"git log -1 --pretty=%B".execute().text.trim()}```\n")
+                setFilePath("app/build/outputs/bundle/${flavor}${buildType.name.capitalize()}/${archivesBaseName}-${flavor}-${buildType.name}.aab")
+                setToken(token)
+            }.execute()
+        }
+    }
+}
+
+static def getDependantTasks(flavor, buildType) {
+    def dependantTasks = []
+    dependantTasks.add("test${flavor.capitalize()}${buildType.name.capitalize()}UnitTest")
+    dependantTasks.add("assemble${flavor.capitalize()}")
+    return dependantTasks
+}
+
+static def getBundleDependantTasks(flavor, buildType) {
+    def dependantTasks = []
+    dependantTasks.add("bundle${flavor.capitalize()}")
+    return dependantTasks
+}
