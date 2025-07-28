@@ -1,15 +1,12 @@
 package io.github.fah33mk.slack
 
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import com.slack.api.Slack
+import com.slack.api.methods.SlackApiException
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 import java.io.File
-import java.net.SocketTimeoutException
-import java.util.concurrent.TimeUnit
+import java.io.IOException
 
 open class SlackUploaderTask : DefaultTask() {
 
@@ -27,64 +24,51 @@ open class SlackUploaderTask : DefaultTask() {
 
     @TaskAction
     fun doUpload() {
-        println("🚧 Slack Build Share: Starting upload")
+        val slack = Slack.getInstance()
+        val methods = slack.methods(token)
+
+        val file = File(project.rootDir, filePath)
+        println("📂 Preparing to upload file: ${file.absolutePath}")
+
+        if (!file.exists()) {
+            println("❌ Error: File not found at path: ${file.absolutePath}")
+            return
+        }
 
         try {
-            val file = File(project.rootDir, filePath)
-            println("📂 File: ${file.absolutePath}")
+            println("🚀 Uploading file to Slack channel: #$channel")
 
-            if (!file.exists()) {
-                println("❌ File not found at given path")
-                return
+            val response = methods.filesUploadV2 { builder ->
+                builder
+                    .channel(channel)
+                    .file(file)
+                    .filename(file.name)
+                    .initialComment(comment)
             }
 
-            val client = OkHttpClient.Builder()
-                .callTimeout(3, TimeUnit.MINUTES)
-                .readTimeout(3, TimeUnit.MINUTES)
-                .build()
-
-            println("📦 Preparing upload request...")
-
-            val requestBody = MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("channels", channel)
-                .addFormDataPart("initial_comment", comment)
-                .addFormDataPart(
-                    "file",
-                    file.name,
-                    ProgressRequestBody(
-                        file,
-                        "application/octet-stream".toMediaTypeOrNull()
-                    ) { percent ->
-                        println("📤 Uploading build to Slack... $percent%")
-                    }
-                )
-                .build()
-
-            val request = Request.Builder()
-                .url("https://slack.com/api/files.upload")
-                .addHeader("Authorization", "Bearer $token")
-                .post(requestBody)
-                .build()
-
-            println("🚀 Uploading to Slack...")
-
-            client.newCall(request).execute().use { response ->
-                val responseBody = response.body?.string()
-                println("📬 Response: ${response.code}")
-                println("📨 Body: $responseBody")
-
-                if (response.isSuccessful) {
-                    println("✅ Build uploaded successfully to Slack.")
-                } else {
-                    println("⚠️ Upload failed: check channel/token")
-                }
+            if (response.isOk) {
+                println("✅ File uploaded successfully.")
+                println("📁 File ID: ${response.file?.id}")
+                println("🔗 File URL: ${response.file?.permalink}")
+            } else {
+                println("⚠️ Slack API responded with error:")
+                println("   ➤ Error Code: ${response.error}")
+                println("   ➤ Needed: ${response.needed}")
+                println("   ➤ Provided: ${response.provided}")
             }
 
-        } catch (_: SocketTimeoutException) {
-            println("⏱️ Timeout: Slack didn't respond in 3 mins")
+        } catch (e: SlackApiException) {
+            println("💥 Slack API Exception occurred:")
+            println("   ➤ Message: ${e.message}")
+            println("   ➤ Response Code: ${e.response?.code}")
+            println("   ➤ Body: ${e.response?.body?.string()}")
+        } catch (e: IOException) {
+            println("💥 I/O Exception occurred during upload:")
+            println("   ➤ Message: ${e.message}")
         } catch (e: Exception) {
-            println("💥 Error: ${e.localizedMessage}")
+            println("💥 Unexpected error occurred:")
+            println("   ➤ Type: ${e::class.java.simpleName}")
+            println("   ➤ Message: ${e.message}")
         }
     }
 }
