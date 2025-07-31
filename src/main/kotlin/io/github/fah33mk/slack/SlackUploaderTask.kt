@@ -3,72 +3,65 @@ package io.github.fah33mk.slack
 import com.slack.api.Slack
 import com.slack.api.methods.SlackApiException
 import org.gradle.api.DefaultTask
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.TaskAction
-import java.io.File
 import java.io.IOException
 
-open class SlackUploaderTask : DefaultTask() {
+abstract class SlackUploaderTask : DefaultTask() {
 
-    @Input
-    var channel = ""
+    @get:Input
+    abstract val channel: Property<String>
 
-    @Input
-    var comment = ""
+    @get:Input
+    abstract val comment: Property<String>
 
-    @Input
-    var filePath = ""
+    @get:InputFile
+    abstract val inputFile: RegularFileProperty
 
-    @Input
-    var token = ""
+    @get:Input
+    abstract val token: Property<String>
 
     @TaskAction
     fun doUpload() {
         val slack = Slack.getInstance()
-        val methods = slack.methods(token)
+        val methods = slack.methods(token.get())
 
-        val file = File(project.rootDir, filePath)
-        println("📂 Preparing to upload file: ${file.absolutePath}")
+        val file = inputFile.get().asFile
+        logger.lifecycle("📂 Preparing to upload file: ${file.absolutePath}")
 
         if (!file.exists()) {
-            println("❌ Error: File not found at path: ${file.absolutePath}")
+            logger.error("❌ Error: File not found at path: ${file.absolutePath}")
             return
         }
 
         try {
-            println("🚀 Uploading file to Slack channel: #$channel")
+            logger.lifecycle("🚀 Uploading file to Slack channel: #${channel.get()}")
 
             val response = methods.filesUploadV2 { builder ->
                 builder
-                    .channel(channel)
+                    .channel(channel.get())
                     .file(file)
                     .filename(file.name)
-                    .initialComment(comment)
+                    .initialComment(comment.get())
             }
 
             if (response.isOk) {
-                println("✅ File uploaded successfully.")
-                println("📁 File ID: ${response.file?.id}")
-                println("🔗 File URL: ${response.file?.permalink}")
+                logger.lifecycle("✅ File uploaded successfully.")
+                logger.lifecycle("📁 File ID: ${response.file?.id}")
+                logger.lifecycle("🔗 File URL: ${response.file?.permalink}")
             } else {
-                println("⚠️ Slack API responded with error:")
-                println("   ➤ Error Code: ${response.error}")
-                println("   ➤ Needed: ${response.needed}")
-                println("   ➤ Provided: ${response.provided}")
+                logger.error("⚠️ Slack API responded with error: ${response.error}")
             }
 
         } catch (e: SlackApiException) {
-            println("💥 Slack API Exception occurred:")
-            println("   ➤ Message: ${e.message}")
-            println("   ➤ Response Code: ${e.response?.code}")
-            println("   ➤ Body: ${e.response?.body?.string()}")
+            logger.error("💥 Slack API Exception: ${e.message}", e)
         } catch (e: IOException) {
-            println("💥 I/O Exception occurred during upload:")
-            println("   ➤ Message: ${e.message}")
+            logger.error("💥 I/O Exception during upload: ${e.message}", e)
         } catch (e: Exception) {
-            println("💥 Unexpected error occurred:")
-            println("   ➤ Type: ${e::class.java.simpleName}")
-            println("   ➤ Message: ${e.message}")
+            logger.error("💥 Unexpected error: ${e.message}", e)
         }
     }
 }
