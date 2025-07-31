@@ -15,6 +15,10 @@ gradlePlugin {
             implementationClass = 'io.github.fah33mk.slack.SlackUploaderPlugin'
             displayName = 'Slack Gradle Android Plugin'
             description = "Uploads artifacts from a Gradle build as a file to a Slack channel"
+
+            website = 'https://github.com/fah33mk/slack-gradle-android-plugin'
+            vcsUrl = 'https://github.com/fah33mk/slack-gradle-android-plugin'
+            tags = ["artifacts", "build", "build artifacts", "cd", "ci", "files", "kotlin", "slack"]
         }
     }
 }
