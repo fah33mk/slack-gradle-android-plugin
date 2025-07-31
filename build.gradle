@@ -1,12 +1,12 @@
 plugins {
-    id 'com.gradle.plugin-publish' version '1.1.0'
+    id 'com.gradle.plugin-publish' version '1.3.1'
+    id "org.jetbrains.kotlin.jvm" version "2.0.21"
     id "java-gradle-plugin"
-    id "maven"
-    id "org.jetbrains.kotlin.jvm" version "1.3.50"
+    id "maven-publish"
 }
 
 group 'io.github.fah33mk'
-version '1.0.0'
+version '2.0.0'
 
 gradlePlugin {
     plugins {
@@ -18,35 +18,36 @@ gradlePlugin {
         }
     }
 }
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+kotlin {
+    jvmToolchain(11)
+}
 
 repositories {
     maven { url 'https://jitpack.io' }
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
-    // Gradle
+    // Gradle Api
     implementation gradleApi()
-
-    // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.50"
-
-    // Slack API
-    implementation "com.github.allbegray:slack-api:1.7.0.RELEASE"
+    // Slack Api
+    implementation("com.slack.api:slack-api-client:1.45.3")
 }
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: uri("./repo"))
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
         }
     }
-}
-
-pluginBundle {
-    website = 'https://github.com/fah33mk/slack-gradle-android-plugin'
-    vcsUrl = 'https://github.com/fah33mk/slack-gradle-android-plugin'
-    tags = ["artifacts", "build", "build artifacts", "cd", "ci", "files", "kotlin", "slack"]
+    repositories {
+        maven {
+            url = uri("./repo")
+        }
+    }
 }
